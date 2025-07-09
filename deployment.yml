@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: buildpacks-container
-          image: buildpacksacr.azurecr.io/groot-image:V6.0
+          image: buildpacksacr.azurecr.io/buildpacks-image:V6.0
           ports:
             - containerPort: 8080
       imagePullSecrets:
