@@ -10,7 +10,7 @@ variables:
   #containerRegistry: 'mainwebappacr'
   #imageName: 'myapp'
   #imageTag: '$(Build.BuildId)'
-  - group: 'Docker Hub authentication credentials'
+  - group: 'Docker Hub authentication credentials' # this is the name of Variable Group
 
 stages:
 - stage: Build
