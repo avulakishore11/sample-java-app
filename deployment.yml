@@ -1,7 +1,22 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+  #name: buildpacknamespace
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: acr-auth-secret
+  namespace: buildpacknamespace
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJidWlsZHBhY2tzYWNyLmF6dXJlY3IuaW8iOnsidXNlcm5hbWUiOiJidWlsZHBhY2tzYWNyIiwicGFzc3dvcmQiOiJzS2Z2NHBpSk1zVFpiVmNYNXhOMWNWNFhRa3d1LzNJU3krNHVHUlBGNWsrQUNSQjVlWURIIiwiZW1haWwiOiJraXNob3JlMzI3ODBAZ21haWwuY29tIiwiYXV0aCI6IlluVnBiR1J3WVdOcmMyRmpjanB6UzJaMk5IQnBTazF6VkZwaVZtTllOWGhPTVdOV05GaFJhM2QxTHpOSlUza3JOSFZIVWxCR05Xc3JRVU5TUWpWbFdVUkkifX19
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: buildpacks-deployment
+  namespace: buildpacknamespace
   labels:
     app: buildpacks
 spec:
@@ -21,17 +36,17 @@ spec:
             - containerPort: 8080
       imagePullSecrets:
         - name: acr-auth-secret
-
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: buildpack-service
+  namespace: buildpacknamespace
 spec:
   type: LoadBalancer
   selector:
-    app: buildpack
+    app: buildpacks
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080 #conainer port becomes target port
-
+      targetPort: 8080
