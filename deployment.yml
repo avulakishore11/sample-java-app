@@ -19,9 +19,23 @@ spec:
     limits.cpu: "3"              # 3x700m = 2.1 CPU
     limits.memory: "4Gi"         # 3x1Gi = 3Gi
     persistentvolumeclaims: "1"
-    requests.storage: "4Gi"
+    requests.storage: "5Gi"      # matches PVC request below
 ---
-## Deployment
+## PersistentVolumeClaim (5Gi Azure Disk, dynamic provisioning)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dev-buildpacks-pvc
+  namespace: dev-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-csi      # Azure Disk CSI driver
+  resources:
+    requests:
+      storage: 5Gi
+---
+## Deployment (mounting PVC at /data)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,10 +59,17 @@ spec:
         resources:
           requests:
             cpu: "500m"
-            memory: "500Mi"       # fixed unit
+            memory: "500Mi"
           limits:
             cpu: "700m"
             memory: "1Gi"
+        volumeMounts:
+        - name: app-storage
+          mountPath: /data               # directory inside container
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: dev-buildpacks-pvc
 ---
 ## Service
 apiVersion: v1
@@ -72,7 +93,7 @@ metadata:
   name: dev-buildpacks-ingress
   namespace: dev-ns
   annotations:
-    kubernetes.io/ingress.class: azure-application-gateway
+    kubernetes.io/ingress.class: azure/application-gateway
 spec:
   ingressClassName: azure-application-gateway
   rules:
