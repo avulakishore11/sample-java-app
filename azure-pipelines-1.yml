@@ -17,7 +17,7 @@ pool:
 
  demands:
   - maven
-  - java-version
+  - java
 
 #variables:
   # Container registry service connection established during pipeline creation
