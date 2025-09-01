@@ -29,8 +29,6 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: $(vmImageName)
     steps:
      - task: SonarQubePrepare@7
        inputs:
