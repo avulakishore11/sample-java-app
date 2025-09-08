@@ -41,6 +41,8 @@ stages:
           projectKey: 'java-8'
           projectName: 'sample-java-app'
           projectVersion: 'v1.0.0'
+          extraProperties: |
+           sonar.branch.name=
 
      - task: Maven@4
        inputs:
