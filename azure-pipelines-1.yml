@@ -52,8 +52,9 @@ stages:
          javaHomeOption: 'JDKVersion'
          # jdkVersionOption: '17.0.16'        # align with SonarQube 10.x
          mavenAuthenticateFeed: false
-         sonarQubeRunAnalysis: true
-         sqMavenPluginVersionChoice: 'latest'
+         #sonarQubeRunAnalysis: true
+         #sqMavenPluginVersionChoice: 'latest'
+         goals: 'clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.2.0.4988:sonar'
 
      - task: SonarQubePublish@7
        inputs:
