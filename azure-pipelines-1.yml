@@ -37,10 +37,9 @@ stages:
      - task: SonarQubePrepare@7
        inputs:
           SonarQube: 'ado-sq-svc-connection' # ADO to SQ service connection
-          scannerMode: 'other'
-          projectKey: 'java-8'
+          scannerMode: 'cli'
+          projectKey: 'java-17'
           projectName: 'sample-java-app'
-          projectVersion: 'v1.0.0'
           extraProperties: |
            sonar.branch.name=
 
