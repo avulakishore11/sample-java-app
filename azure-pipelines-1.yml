@@ -37,7 +37,7 @@ stages:
      - task: SonarQubePrepare@7
        inputs:
          SonarQube: 'ado-sq-svc-connection'  # service connection in Azure DevOps
-         scannerMode: 'other'                # mave/gradle or dotnet
+         scannerMode: "cli"               # mave/gradle or dotnet
          projectKey: 'java-8'
          projectName: 'sample-java-app'
          projectVersion:   'v1.0.0' 
