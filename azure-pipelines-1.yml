@@ -15,9 +15,9 @@ trigger:
 pool:
  name: "pool-1"
 
- demands:
-  - maven
-  - java
+ #demands:
+  #- maven
+  #- java
 
 #variables:
   # Container registry service connection established during pipeline creation
