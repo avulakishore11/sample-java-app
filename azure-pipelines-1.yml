@@ -48,7 +48,7 @@ stages:
          publishJUnitResults: true
          testResultsFiles: '**/surefire-reports/TEST-*.xml'
          javaHomeOption: 'JDKVersion'
-         jdkVersionOption: '1.17'        # align with SonarQube 10.x
+         jdkVersionOption: '17.0.16'        # align with SonarQube 10.x
          mavenAuthenticateFeed: false
          sonarQubeRunAnalysis: true
          sqMavenPluginVersionChoice: 'latest'
