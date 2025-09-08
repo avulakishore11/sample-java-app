@@ -29,14 +29,14 @@ pool:
 
 stages:
 - stage: Build
-  displayName: Build and SQ-prepare
+  displayName: Build and SonarQube Analysis
   jobs:
   - job: Build
     displayName: Build
     steps:
      - task: SonarQubePrepare@7
        inputs:
-          SonarQube: 'ado-sq-svc-connection' # ADO to SQ service connection.
+          SonarQube: 'ado-sq-svc-connection' # ADO to SQ service connection
           scannerMode: 'other'
           projectKey: 'java-8'
           projectName: 'sample-java-app'
@@ -44,19 +44,15 @@ stages:
 
      - task: Maven@4
        inputs:
-         azureSubscription: 'svc-connection1'
          mavenPomFile: 'pom.xml'
          publishJUnitResults: true
          testResultsFiles: '**/surefire-reports/TEST-*.xml'
          javaHomeOption: 'JDKVersion'
-         mavenVersionOption: 'Default'
+         jdkVersionOption: '1.17'        # align with SonarQube 10.x
          mavenAuthenticateFeed: false
-         effectivePomSkip: false
          sonarQubeRunAnalysis: true
          sqMavenPluginVersionChoice: 'latest'
-     - task: SonarQubeAnalyze@7
-       inputs:
-         jdkversion: 'JAVA_HOME_8_X64'
+
      - task: SonarQubePublish@7
        inputs:
          pollingTimeoutSec: '300'
