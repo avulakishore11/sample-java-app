@@ -44,11 +44,6 @@ stages:
            # sonar.exclusions=**/*.bin
            sonar.projectKey=payment_payment_79054d2d-71ea-45e9-a7ae-4478d2a329c3
            sonar.projectName=payment
-     - task: JavaToolInstaller@1
-       inputs:
-         versionSpec: '11'
-         jdkArchitectureOption: 'x64'
-         jdkSourceOption: 'LocalDirectory'
      - task: Maven@4
        inputs:
          azureSubscription: 'ADO-to-Azure'
