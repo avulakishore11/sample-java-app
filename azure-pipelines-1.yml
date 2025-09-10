@@ -30,6 +30,7 @@ stages:
     displayName: Build
     steps:
      - task: SonarQubePrepare@7
+       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
        inputs:
          SonarQube: 'ado-sq-svc-connection'
          scannerMode: 'other'
@@ -42,6 +43,7 @@ stages:
      - task: Maven@4
        inputs:
          azureSubscription: 'ADO-to-Azure'
+         goals: 'clean install'
          mavenPomFile: 'pom.xml'
          publishJUnitResults: true
          testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -50,8 +52,9 @@ stages:
          mavenAuthenticateFeed: false
          effectivePomSkip: false
          sonarQubeRunAnalysis: true
-         sqMavenPluginVersionChoice: 'latest'
+         #sqMavenPluginVersionChoice: 'latest'
     
      - task: SonarQubePublish@7
+       condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
        inputs:
          pollingTimeoutSec: '300'
