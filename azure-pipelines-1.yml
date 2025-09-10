@@ -44,9 +44,14 @@ stages:
            # sonar.exclusions=**/*.bin
            sonar.projectKey=payment_payment_79054d2d-71ea-45e9-a7ae-4478d2a329c3
            sonar.projectName=payment
+     - task: JavaToolInstaller@1
+       inputs:
+         versionSpec: '11'
+         jdkArchitectureOption: 'x64'
+         jdkSourceOption: 'PreInstalled'
      - task: Maven@4
        inputs:
-         azureSubscription: 'Azure subscription 1(cacb9864-459f-41eb-b7dd-bfe56cd25dc3)'
+         azureSubscription: 'ADO-to-Azure'
          mavenPomFile: 'pom.xml'
          publishJUnitResults: true
          testResultsFiles: '**/surefire-reports/TEST-*.xml'
@@ -54,9 +59,11 @@ stages:
          mavenVersionOption: 'Default'
          mavenAuthenticateFeed: false
          effectivePomSkip: false
-         sonarQubeRunAnalysis: true
-         sqMavenPluginVersionChoice: 'pom'
+         sonarQubeRunAnalysis: false
          
+     - task: SonarQubeAnalyze@7
+       inputs:
+         jdkversion: 'JAVA_HOME_17_X64'
      
 
      - task: SonarQubePublish@7
