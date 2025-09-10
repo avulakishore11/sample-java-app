@@ -6,11 +6,6 @@ trigger:
  branches:
    include:
      - main
-   exclude:
-     - feature/*
-     - develop
-     - release
-     - bugfix
 
 pool:
  name: "pool-1"
@@ -54,13 +49,9 @@ stages:
          mavenVersionOption: 'Default'
          mavenAuthenticateFeed: false
          effectivePomSkip: false
-         sonarQubeRunAnalysis: false
-         
-     - task: SonarQubeAnalyze@7
-       inputs:
-         jdkversion: 'JAVA_HOME_17_X64'
-     
-
+         sonarQubeRunAnalysis: true
+         sqMavenPluginVersionChoice: 'latest'
+    
      - task: SonarQubePublish@7
        inputs:
          pollingTimeoutSec: '300'
