@@ -36,24 +36,27 @@ stages:
     steps:
      - task: SonarQubePrepare@7
        inputs:
-          SonarQube: 'ado-sq-svc-connection' # ADO to SQ service connection
-          scannerMode: 'cli'
-          projectKey: 'java-17'
-          projectName: 'sample-java-app'
-          extraProperties: |
-           sonar.branch.name=
+         SonarQube: 'ado-sq-svc-connection'
+         scannerMode: 'other'
+         extraProperties: |
+           # Additional properties that will be passed to the scanner,
+           # Put one key=value per line, example:
+           # sonar.exclusions=**/*.bin
+           sonar.projectKey=payment_payment_79054d2d-71ea-45e9-a7ae-4478d2a329c3
+           sonar.projectName=payment
 
      - task: Maven@4
        inputs:
+         azureSubscription: 'ADO-to-Azure'
          mavenPomFile: 'pom.xml'
          publishJUnitResults: true
          testResultsFiles: '**/surefire-reports/TEST-*.xml'
          javaHomeOption: 'JDKVersion'
-         # jdkVersionOption: '17.0.16'        # align with SonarQube 10.x
+         mavenVersionOption: 'Default'
          mavenAuthenticateFeed: false
-         #sonarQubeRunAnalysis: true
-         #sqMavenPluginVersionChoice: 'latest'
-         goals: 'clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:5.2.0.4988:sonar'
+         effectivePomSkip: false
+         sonarQubeRunAnalysis: true
+         sqMavenPluginVersionChoice: 'latest'
 
      - task: SonarQubePublish@7
        inputs:
